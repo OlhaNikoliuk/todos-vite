@@ -21,8 +21,8 @@ export const Todos = () => {
   const [todoToEdit, setTodoToEdit] = useState<Todo | null>(null);
 
   const queryParams = {
-    completed: searchParams.get("completed"),
-    category: searchParams.get("category"),
+    completed: searchParams.get("completed") || undefined,
+    category: searchParams.get("category") || undefined,
   };
 
   const { data: todos, isLoading: todosIsLoading } = useTodosList({
@@ -53,7 +53,7 @@ export const Todos = () => {
     <div className="w-600 mx-auto py-10">
       <Box
         component="div"
-        className="flex flex-col justify-start min-h-600 text-center rounded-xl bg-dark p-6 max-h-600"
+        className="flex flex-col justify-start min-h-600 text-center p-6 bg-dark rounded-xl max-h-600 cursor-pointer"
       >
         <div
           className="flex flex-nowrap gap-3 items-center my-6 mx-auto cursor-pointer"

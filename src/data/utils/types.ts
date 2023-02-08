@@ -8,6 +8,7 @@ export enum TodoCategory {
 
 export type Todo = {
   id: string;
+  _id: string;
   createdAt: string;
   updatedAt: string;
   title: string;
@@ -34,6 +35,6 @@ export interface CreateTodoValues {
 }
 
 export type TodosSearchParams = {
-  completed: string;
-  category: TodoCategory | string;
+  completed?: string;
+  category?: TodoCategory | string;
 };

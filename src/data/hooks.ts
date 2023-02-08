@@ -1,9 +1,11 @@
+import { Todo } from "./store";
 import {
   useMutation,
   UseMutationResult,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { BsCheckLg } from "react-icons/bs";
 import * as api from "./api";
 import { todosKeys } from "./hookKeys";
 import {
@@ -80,6 +82,24 @@ export const useEditTodo = (): UseMutationResult<
     onMutate: async ({ id, values, params }) => {
       await queryClient.cancelQueries(todosKeys.all());
 
+      const previousTodo = queryClient.getQueryData<FetchTodoBody>(
+        todosKeys.detail(id)
+      );
+
+      if (previousTodo) {
+        const newTodo = {
+          data: {
+            title: values.title,
+            description: values.description,
+            category: values.category,
+            completed: values.completed,
+            createdAt: previousTodo.data.createdAt,
+          },
+        };
+
+        queryClient.setQueryData(todosKeys.detail(id), newTodo);
+      }
+
       const previousTodosList = queryClient.getQueryData<FetchTodoListBody>(
         todosKeys.list(params)
       );
@@ -101,10 +121,11 @@ export const useEditTodo = (): UseMutationResult<
 
         queryClient.setQueryData(todosKeys.list(params), newTodoList);
       }
-      return { previousTodosList };
+      return { previousTodo, previousTodosList };
     },
 
-    onError: (_, { params }, { previousTodosList }) => {
+    onError: (_, { id, params }, { previousTodo, previousTodosList }) => {
+      queryClient.setQueryData(todosKeys.detail(id), previousTodo);
       queryClient.setQueryData(todosKeys.list(params), previousTodosList);
     },
 

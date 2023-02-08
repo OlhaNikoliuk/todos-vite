@@ -1,8 +1,8 @@
 import { Modal, TextField } from "@mui/material";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { AddButton } from "./AddButton";
-import { styled } from '@mui/material/styles'
+import { styled } from "@mui/material/styles";
 import { Todo, TodoCategory, TodosSearchParams } from "../../data/utils/types";
 import { Filter } from "./Filter";
 import { categoriesOptions } from "../../data/utils/categoriesOptions";
@@ -30,7 +30,7 @@ const StyledInput = styled(TextField)({
 interface CreateTodoFormProps {
   openModal: boolean;
   closeModal: () => void;
-  initialValue?: Todo;
+  initialValue?: Todo | null;
   searchParams?: TodosSearchParams;
 }
 
@@ -64,7 +64,7 @@ const CreateTodoForm = ({
         values: {
           ...initialValue,
           title: data.title,
-          description: data?.description ||'',
+          description: data?.description || "",
           category: data.category,
         },
         params: searchParams,
@@ -73,7 +73,7 @@ const CreateTodoForm = ({
       createTodo({
         values: {
           title: data.title,
-          description: data?.description||"",
+          description: data?.description || "",
           category: data.category,
           completed: false,
         },
@@ -142,7 +142,13 @@ const CreateTodoForm = ({
             name="description"
             control={control}
             render={({ field }) => (
-              <StyledInput {...field} className="mb-5 " label="Description" />
+              <StyledInput
+                {...field}
+                className="mb-5 "
+                label="Description"
+                multiline
+                rows={4}
+              />
             )}
           />
           <AddButton

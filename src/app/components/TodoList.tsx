@@ -43,7 +43,7 @@ const TodoList = ({
         {todos.map((todo) => (
           <div
             key={todo.id}
-            className={`flex justify-between w-full py-3 px-4 rounded mb-2 last-of-type:mb-0 text-white items-start ${
+            className={`flex justify-between w-full py-4 px-4 rounded  mb-2 text-white items-start hover:shadow-hover ${
               getCurrentColor()[todo.category as TodoCategory]
             }`}
             data-testid="todo-item"
@@ -66,9 +66,6 @@ const TodoList = ({
               />
               <div className="text-start">
                 <p className="font-semibold">{todo.title}</p>
-                {todo.description && (
-                  <p className="font-normal text-xs">{todo.description}</p>
-                )}
               </div>
             </div>
             <div className="flex gap-3 items-center cursor-pointer">
@@ -98,7 +95,7 @@ const TodoList = ({
         onClose={() => setTodoToRemove(null)}
         text={"Are you sure you want to delete this item?"}
         handleConfirm={() => {
-          removeTodo(todoToRemove?.id ||'', {
+          removeTodo(todoToRemove?.id || "", {
             onSuccess: () => setTodoToRemove(null),
           });
         }}

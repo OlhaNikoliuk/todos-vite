@@ -9,14 +9,14 @@ import {
 axios.defaults.baseURL = "https://todo-api-0i3118.can.canonic.dev/api";
 
 export const fetchTodos = (
-  params: TodosSearchParams
+  params?: TodosSearchParams
 ): Promise<FetchTodoListBody> =>
   axios.get(`/todos`, { params }).then(({ data }) => data);
 
 export const fetchTodo = (id: string): Promise<FetchTodoBody> =>
   axios.get(`/todos/${id}`).then(({ data }) => ({
     success: data.success,
-    data: { ...data.data, category: data.category?.value },
+    data: { ...data.data },
   }));
 
 export const createTodo = ({
